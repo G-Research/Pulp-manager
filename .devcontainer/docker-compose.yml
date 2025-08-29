@@ -1,0 +1,56 @@
+services:
+  devcontainer:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspace:cached
+      - venv-volume:/workspace/venv
+      # Docker socket for Docker-in-Docker
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      DB_HOSTNAME: mariadb
+      DB_NAME: pulp_manager
+      DB_USER: pulp-manager
+      DB_PASSWORD: pulp-manager
+      JWT_SECRET: test_secret
+      PULP_MANAGER_CONFIG_PATH: /workspace/local_config.ini
+      PULP_SYNC_CONFIG_PATH: /workspace/local_pulp_config.yml
+      Is_local: "true"
+    networks:
+      - pulp-devcontainer-net
+    depends_on:
+      - mariadb
+      - redis
+
+  mariadb:
+    image: mariadb:11.1.2-jammy
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_USER: pulp-manager
+      MARIADB_PASSWORD: pulp-manager
+      MARIADB_ROOT_PASSWORD: my-root-password
+      MARIADB_DATABASE: pulp_manager
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - pulp-devcontainer-net
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - pulp-devcontainer-net
+
+volumes:
+  venv-volume:
+  mariadb-data:
+
+networks:
+  pulp-devcontainer-net:
+    driver: bridge

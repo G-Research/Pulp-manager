@@ -1,0 +1,65 @@
+{
+  "name": "Pulp Manager Dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.pylint",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "redhat.vscode-yaml",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "littlefoxteam.vscode-python-test-adapter",
+        "hbenl.vscode-test-explorer"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/workspace/venv/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.pylintPath": "pylint",
+        "python.linting.pylintArgs": ["--rcfile", "./pylint.rc"],
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestPath": "/workspace/venv/bin/pytest",
+        "python.testing.pytestArgs": [
+          "-v",
+          "--tb=short",
+          "--color=yes"
+        ],
+        "python.testing.unittestEnabled": false,
+        "python.testing.autoTestDiscoverOnSaveEnabled": true,
+        "python.terminal.activateEnvironment": true,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "python.formatting.provider": "black",
+        "python.formatting.blackPath": "/usr/local/bin/black",
+        "python.sortImports.path": "/usr/local/bin/isort",
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+          }
+        },
+        "coverage-gutters.showLineCoverage": true,
+        "coverage-gutters.showRulerCoverage": true
+      }
+    }
+  },
+
+  "forwardPorts": [8080, 9300, 3306, 6379],
+  
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspace && cd /workspace && python -m venv venv && ./venv/bin/pip install --upgrade pip && ./venv/bin/pip install -r requirements.txt && ./venv/bin/pip install -r .devcontainer/requirements-override.txt",
+  
+  "postStartCommand": "echo 'DevContainer ready with MariaDB and Redis running'",
+  
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  }
+}
