@@ -52,7 +52,7 @@
 
   "forwardPorts": [8080, 9300, 3306, 6379],
   
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspace && cd /workspace && python -m venv venv && ./venv/bin/pip install --upgrade pip && ./venv/bin/pip install -r requirements.txt && ./venv/bin/pip install -r .devcontainer/requirements-override.txt",
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspace && cd /workspace && python -m venv venv && ./venv/bin/pip install --upgrade pip && ./venv/bin/pip install -r requirements.txt",
   
   "postStartCommand": "echo 'DevContainer ready with MariaDB and Redis running'",
   
