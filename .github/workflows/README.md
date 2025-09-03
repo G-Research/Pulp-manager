@@ -4,11 +4,6 @@ This directory contains GitHub Actions workflows for continuous integration and 
 
 ## Workflows
 
-### test.yml - Quick Test Run
-- **Trigger**: Push to main branch, Pull requests
-- **Purpose**: Runs the test suite using pytest
-- **Environment**: Uses devcontainer with MariaDB and Redis via `devcontainers/ci` action
-
 ### ci.yml - Comprehensive CI
 - **Trigger**: Push to main branch, Pull requests, Manual dispatch
 - **Jobs**:
