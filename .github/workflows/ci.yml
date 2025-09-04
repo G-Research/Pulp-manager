@@ -21,6 +21,7 @@ jobs:
     - name: Run lint in devcontainer
       uses: devcontainers/ci@v0.3
       with:
+        imageName: pulp-manager-devcontainer
         runCmd: |
           cd /workspace
           python -m venv venv
@@ -41,6 +42,7 @@ jobs:
     - name: Run tests with coverage in devcontainer
       uses: devcontainers/ci@v0.3
       with:
+        imageName: pulp-manager-devcontainer
         runCmd: |
           cd /workspace
           python -m venv venv

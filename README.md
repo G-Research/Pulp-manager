@@ -1,28 +1,28 @@
 # Pulp Manager
 
 The Pulp Manager application is used to coordinate common Pulp
-workflows and provide some additional reporting capabilities about a
+workflows and provide additional reporting capabilities about a
 cluster of Pulp servers. It is designed to work with Pulp3.
 
-We recommend that pulp is operated in a primary/secondary setup. There is a
-single pulp instance known as the Pulp Primary which syncs repos from
-the Internet and also has custom internal rpms/debs uploaded. Slaves
-are then configured to sync these snapshots and internal repos.
+We recommend that Pulp be operated in a primary/secondary setup. There
+is a single Pulp instance known internally as the Pulp Master which
+syncs repos from the Internet and can also have custom or internal
+packages uploaded to it. Secondaries are then configured to sync these
+snapshots and internal repos.
 
 Pulp3 doesn't provide a method to schedule the synchronisation of
-repos, and in some repository types (deb) require multiple steps to
-sync and update a repos content. The idea is that Pulp Manager
-provides the coordination and reporting for this (along with other
-workflows), rather than shoe horning jobs into Jenkins.
+repos, and in some repository types (deb) may require multiple steps
+to sync and update a repo's content. Pulp Manager provides the
+coordination and reporting for this (along with other workflows),
+rather than using a more generic management approach such as Ansible
+orJenkins.
 
-Async SQLAlchemy isn't used, which also means most of the API isn't
-async. The main reason for this being is the main work of the
-application will be done by RQ workers which handles one job at one
-time. An RQ worker runs as a single process (although it does use fork
-internally), however this still means there is nothing gained from
-awaiting on the Database, also other libs such as the hashicorp vault
-library are not async. Also this API isn't going to be one that sees
-lots of heavy traffic so doesn't gain any real benefit from async
+APIs are synchronous but usualy launch background jobs for
+long-running processes. The main work of the application is done by RQ
+workers. An RQ worker runs as a single process (although it does use
+fork internally), however this still means there is nothing gained
+from awaiting on the Database. Other libs such as the Hashicorp
+Vault library are likewise not async. 
 
 ## Architecture
 
