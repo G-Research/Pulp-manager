@@ -9,20 +9,6 @@ on:
 
 jobs:
 
-  prepare_image:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        submodules: recursive
-
-    - name: Pre-build dev container image
-      uses: devcontainers/ci@v0.3
-      with:
-        imageName: ghcr.io/G-Research/pulp-manager-devcontainer
-        cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
-        push: always
 
   lint:
     name: Lint
@@ -37,8 +23,7 @@ jobs:
     - name: Run lint in devcontainer
       uses: devcontainers/ci@v0.3
       with:
-        cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
-        push: never
+        imageName: ghcr.io/G-Research/pulp-manager-devcontainer
         runCmd: |
           cd /workspace
           python -m venv venv
@@ -59,8 +44,7 @@ jobs:
     - name: Run tests with coverage in devcontainer
       uses: devcontainers/ci@v0.3
       with:
-        cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
-        push: never
+        imageName: ghcr.io/G-Research/pulp-manager-devcontainer
         runCmd: |
           cd /workspace
           python -m venv venv
