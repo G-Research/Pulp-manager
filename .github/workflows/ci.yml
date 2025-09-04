@@ -8,6 +8,15 @@ on:
   workflow_dispatch:
 
 jobs:
+
+  prepare_image:
+    - name: Pre-build dev container image
+      uses: devcontainers/ci@v0.3
+      with:
+        imageName: ghcr.io/G-Research/pulp-manager-devcontainer
+        cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
+        push: always
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -21,6 +30,8 @@ jobs:
     - name: Run lint in devcontainer
       uses: devcontainers/ci@v0.3
       with:
+        cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
+        push: never
         runCmd: |
           cd /workspace
           python -m venv venv
@@ -41,6 +52,8 @@ jobs:
     - name: Run tests with coverage in devcontainer
       uses: devcontainers/ci@v0.3
       with:
+        cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
+        push: never
         runCmd: |
           cd /workspace
           python -m venv venv
