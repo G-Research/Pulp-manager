@@ -103,5 +103,5 @@ Our release process:
 
 How we handle documentation:
 
-- **Documentation Location**: Our documentation is hosted in the repository README.md, CLAUDE.md, and docs/ folder.
+- **Documentation Location**: Our documentation is hosted in the repository README.md and docs/ folder.
 - **Update Process**: Documentation is updated as part of pull requests when changes affect user-facing functionality or development processes.
