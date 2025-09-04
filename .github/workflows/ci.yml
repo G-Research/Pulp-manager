@@ -12,7 +12,12 @@ jobs:
   prepare_image:
     runs-on: ubuntu-latest
     steps:
-      - name: Pre-build dev container image
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Pre-build dev container image
         uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/G-Research/pulp-manager-devcontainer
