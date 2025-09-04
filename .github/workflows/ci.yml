@@ -18,11 +18,11 @@ jobs:
         submodules: recursive
 
     - name: Pre-build dev container image
-        uses: devcontainers/ci@v0.3
-        with:
-          imageName: ghcr.io/G-Research/pulp-manager-devcontainer
-          cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
-          push: always
+      uses: devcontainers/ci@v0.3
+      with:
+        imageName: ghcr.io/G-Research/pulp-manager-devcontainer
+        cacheFrom: ghcr.io/G-Research/pulp-manager-devcontainer
+        push: always
 
   lint:
     name: Lint
