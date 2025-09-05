@@ -22,6 +22,7 @@ jobs:
       uses: devcontainers/ci@v0.3
       with:
         imageName: pulp-manager-devcontainer
+        push: never
         runCmd: |
           cd /workspace
           python -m venv venv
@@ -43,6 +44,7 @@ jobs:
       uses: devcontainers/ci@v0.3
       with:
         imageName: pulp-manager-devcontainer
+        push: never
         runCmd: |
           cd /workspace
           python -m venv venv
