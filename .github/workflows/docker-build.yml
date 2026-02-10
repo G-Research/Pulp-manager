@@ -24,6 +24,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
+      attestations: write
 
     steps:
       - name: Checkout code
@@ -120,6 +121,7 @@ jobs:
           platforms: linux/amd64
 
       - name: Push to registries
+        id: push
         run: |
           for registry in ${{ steps.registries.outputs.registries }}; do
             echo "Pushing to ${registry}..."
@@ -130,10 +132,16 @@ jobs:
             done
           done
 
+          # Capture the image digest from ghcr.io for attestation
+          first_tag=$(echo "${{ steps.tags.outputs.tags }}" | awk '{print $1}')
+          digest=$(docker inspect --format='{{index .RepoDigests 0}}' "ghcr.io/pulp/${{ env.IMAGE_NAME }}:${first_tag}" | cut -d'@' -f2)
+          echo "digest=${digest}" >> $GITHUB_OUTPUT
+          echo "Image digest: ${digest}"
+
       - name: Generate artifact attestation
         if: github.event_name != 'pull_request'
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ghcr.io/pulp/${{ env.IMAGE_NAME }}
-          subject-digest: ${{ hashFiles('Dockerfile') }}
+          subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
